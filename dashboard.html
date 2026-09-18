@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحتي | رحلة إلياس عصباتي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root {
+    --bg-1: #0b1023;
+    --bg-2: #161b3d;
+    --primary: #6c5ce7;
+    --primary-light: #a29bfe;
+    --accent: #00cec9;
+    --accent-2: #fd79a8;
+    --gold: #fdcb6e;
+    --green: #00e676;
+    --danger: #ff6b6b;
+    --text: #f5f6fa;
+    --muted: #a4b0be;
+    --glass: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, var(--bg-1), var(--bg-2) 60%, #1a1a4e);
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.3; z-index: 0; animation: float 12s ease-in-out infinite; }
+  .orb-1 { width: 400px; height: 400px; background: var(--primary); top: -130px; left: -120px; }
+  .orb-2 { width: 350px; height: 350px; background: var(--accent); top: 30%; right: -120px; animation-delay: -4s; }
+  .orb-3 { width: 300px; height: 300px; background: var(--accent-2); bottom: -120px; left: 20%; animation-delay: -8s; }
+  @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-35px) scale(1.07); } }
+  .grid-overlay {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(108,92,231,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,92,231,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .main { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+
+  /* ==== NAV ==== */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: 0.8rem 0; flex-wrap: wrap;
+    animation: fadeDown 0.7s ease both;
+  }
+  .logo { display: flex; align-items: center; gap: 0.6rem; font-weight: 900; font-size: 1.25rem; }
+  .logo i { color: var(--accent); font-size: 1.5rem; filter: drop-shadow(0 0 10px rgba(0,206,201,0.6)); }
+  .nav-user { display: flex; align-items: center; gap: 0.8rem; }
+  .user-chip {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    padding: 0.45rem 1.1rem; border-radius: 100px; font-weight: 700; font-size: 0.9rem;
+  }
+  .user-chip .ava {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #0b1023;
+  }
+  .logout-btn {
+    background: var(--glass); border: 1px solid var(--glass-border); color: var(--muted);
+    border-radius: 100px; padding: 0.45rem 1rem; font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
+  }
+  .logout-btn:hover { color: var(--danger); border-color: rgba(255,107,107,0.5); }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ==== HERO ==== */
+  .hero { text-align: center; padding: 2.5rem 0 1.5rem; }
+  .hero .welcome-kicker { color: var(--accent); font-weight: 700; margin-bottom: 0.5rem; }
+  .hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 900; margin-bottom: 0.8rem; }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: var(--muted); max-width: 620px; margin: 0 auto; line-height: 1.9; font-size: 1.02rem; }
+
+  .days-chip {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 100px; padding: 0.55rem 1.4rem; margin-top: 1.2rem;
+    font-size: 0.95rem; font-weight: 700;
+  }
+  .days-chip .num { color: var(--gold); font-size: 1.3rem; font-weight: 900; }
+
+  /* ==== PROGRESS ==== */
+  .overall-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    padding: 1.8rem;
+    backdrop-filter: blur(12px);
+    margin: 1.5rem 0;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .overall-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem; }
+  .overall-top h3 { font-size: 1.2rem; font-weight: 800; }
+  .overall-top .pct { font-size: 1.6rem; font-weight: 900; color: var(--accent); }
+  .bar-track { height: 16px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
+  .bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--primary));
+    border-radius: 100px;
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+  .bar-fill::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+  /* direction rtl: shimmer translateX(100%) يبدأ من اليسار */
+  .bar-fill::after { transform-origin: center; }
+
+  .hint {
+    text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 0.9rem;
+  }
+  .hint i { color: var(--gold); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ==== SKILL SECTIONS ==== */
+  .skill-section {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1.4rem;
+    backdrop-filter: blur(12px);
+    opacity: 0; transform: translateY(30px);
+  }
+  .skill-section.show { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .skill-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.3rem; }
+  .skill-box {
+    width: 50px; height: 50px; border-radius: 14px; display: flex;
+    align-items: center; justify-content: center; font-size: 1.4rem; color: #fff;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3); flex-shrink: 0;
+  }
+  .skill-head h3 { font-size: 1.2rem; font-weight: 800; }
+  .skill-head .meta { color: var(--muted); font-size: 0.8rem; }
+  .skill-pct { margin-right: auto; font-weight: 900; font-size: 1.1rem; color: var(--accent); }
+
+  .lessons { display: grid; gap: 0.7rem; }
+  .lesson {
+    display: flex; align-items: center; gap: 0.9rem;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  .lesson:hover { background: rgba(255,255,255,0.09); border-color: rgba(108,92,231,0.5); }
+  .lesson .check {
+    width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+    border: 2px solid var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    color: transparent; font-size: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  .lesson.done .check { background: var(--green); border-color: var(--green); color: #0b1023; box-shadow: 0 0 12px rgba(0,230,118,0.4); }
+  .lesson .lesson-name { font-size: 1rem; font-weight: 700; }
+  .lesson .lesson-desc { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+  .lesson.done .lesson-name { text-decoration: line-through; opacity: 0.6; }
+
+  /* ==== FOOTER / RESET ==== */
+  .actions { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; }
+  .reset-btn {
+    background: transparent; border: 1px solid rgba(255,107,107,0.4); color: var(--danger);
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.9rem;
+    padding: 0.6rem 1.6rem; border-radius: 100px; cursor: pointer; transition: all 0.3s;
+  }
+  .reset-btn:hover { background: rgba(255,107,107,0.12); }
+  .home-btn {
+    background: transparent; border: 1px solid var(--glass-border); color: var(--muted);
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.9rem;
+    padding: 0.6rem 1.6rem; border-radius: 100px; cursor: pointer; text-decoration: none; transition: all 0.3s;
+  }
+  .home-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1.5rem 0 2rem; }
+  footer .heart { color: var(--accent-2); }
+
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: #101641; border: 1px solid var(--glass-border);
+    padding: 0.8rem 1.5rem; border-radius: 14px; z-index: 50;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    transition: transform 0.4s ease; font-weight: 700; font-size: 0.9rem;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .confetti-piece { position: fixed; top: -20px; z-index: 40; pointer-events: none; }
+
+  @media (max-width: 640px) {
+    .main { padding: 1rem; }
+    .skill-head { flex-wrap: wrap; }
+    .skill-pct { margin-right: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="grid-overlay"></div>
+
+<main class="main">
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:var(--text);">
+      <i class="fa-solid fa-code"></i>
+      <span>لوحتي</span>
+    </a>
+    <div class="nav-user">
+      <div class="user-chip"><div class="ava" id="userAva">?</div><span id="userName">... </span></div>
+      <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="welcome-kicker"><i class="fa-solid fa-hands-clapping"></i> أهلاً بك مستمر في رحلتك</div>
+    <h1>يلا نبدأ! هذا هو <span class="grad">تقدمك في البرمجة</span></h1>
+    <p>علّم بتحقيق كل نقطة هنا، واضغط عليها لتُعلَّم كمكتملة. كل ما تحققه يُحفظ تلقائياً على جهازك — حتى لو أغلقت الصفحة ورجعت، رحلتك تبقى محفوظة.</p>
+    <div class="days-chip"><i class="fa-solid fa-calendar-days"></i> رحلة بدأت منذ <span class="num" id="dayCount">0</span> يوم</div>
+  </section>
+
+  <div class="overall-card">
+    <div class="overall-top">
+      <h3><i class="fa-solid fa-bullseye"></i> التقدم الكلي</h3>
+      <div class="pct" id="overallPct">0%</div>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="overallBar"></div></div>
+    <p class="hint"><i class="fa-solid fa-star"></i> كل إنجاز يقربك من هدفك — استمر!</p>
+  </div>
+
+  <div id="skillsContainer"></div>
+
+  <div class="actions">
+    <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
+    <button class="reset-btn" onclick="resetProgress()"><i class="fa-solid fa-rotate-left"></i> تصفير التقدم</button>
+  </div>
+
+  <footer>صُنع لكل لحظة نجاح في رحلة <span class="heart">♥</span> إلياس</footer>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ==== البيانات: المنهج (يمكن تعديله بحرية) ====
+  const SKILLS = [
+    {
+      title: "أساسيات البرمجة",
+      icon: "fa-solid fa-code",
+      iconColor: "linear-gradient(135deg,#6c5ce7,#4834d4)",
+      lessons: [
+        { name: "التفكير الخوارزمي", desc: "افهم الخطوات اللازمة لحل أي مشكلة" },
+        { name: "المتغيرات والأنواع", desc: "خزن البيانات: أرقام، نصوص، صح/خطأ" },
+        { name: "جمل الشرط (if)", desc: "خذ قرارات داخل الكود" },
+        { name: "الحلقات (Loops)", desc: "كرر العمليات بدون تعب" },
+        { name: "الدوال (Functions)", desc: "اجمع الكود في أجزاء قابلة لإعادة الاستخدام" },
+      ]
+    },
+    {
+      title: "تطوير الويب",
+      icon: "fa-solid fa-laptop-code",
+      iconColor: "linear-gradient(135deg,#00cec9,#0abde3)",
+      lessons: [
+        { name: "HTML: هيكل الصفحة", desc: "ابنِ هيكل أي موقع" },
+        { name: "CSS: التجميل", desc: "الألوان، الخطوط، التنسيق" },
+        { name: "JavaScript: التفاعل", desc: "اجعله يستجيب للمستخدم" },
+        { name: "التصميم المتجاوب", desc: "موقع يعمل على الجوال والحاسوب" },
+        { name: "رفع الموقع الأول", desc: "انشر موقعك على الإنترنت للعالم" },
+      ]
+    },
+    {
+      title: "مهارات حل المشكلات",
+      icon: "fa-solid fa-puzzle-piece",
+      iconColor: "linear-gradient(135deg,#fd79a8,#e84393)",
+      lessons: [
+        { name: "تقسيم المشكلات الكبيرة", desc: "قسّمها لمشكلات صغيرة سهلة" },
+        { name: "استخدام أدوات البحث", desc: "اكتشف القوة الحقيقية للبحث" },
+        { name: "قراءة أخطاء البرمجة", desc: "فهم رسائل الخطأ فتقدر تصلّحها" },
+        { name: "التصحيح (Debugging)", desc: "ابحث عن الخطأ وجرّب الحلول" },
+      ]
+    },
+    {
+      title: "بناء مستقبلك",
+      icon: "fa-solid fa-trophy",
+      iconColor: "linear-gradient(135deg,#fdcb6e,#e17055)",
+      lessons: [
+        { name: "الانضباط والاستمرارية", desc: "قليل دائم خير من كثير منقطع" },
+        { name: "مشروع شخصي كامل", desc: "ابدأ وخلص مشروعك الأول بنفسك" },
+        { name: "بناء معرض أعمال", desc: "اعرض مشاريعك في مكان واحد" },
+        { name: "أول وظيفة أو فرصة", desc: "الوصول للهدف الأكبر" },
+      ]
+    }
+  ];
+
+  const USERS_KEY = "elias_users";
+  const BTN_COLORS = ["#00cec9", "#a29bfe", "#fd79a8", "#fdcb6e"];
+
+  let currentUser = null;
+  let state = null; // { total, done, skills }
+
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+
+  // ==== بدء التشغيل ====
+  function init() {
+    const name = sessionStorage.getItem("elias_session");
+    if (!name) { location.href = "login.html"; return; }
+
+    const users = getUsers();
+    const user = users[name];
+    if (!user) { location.href = "login.html"; return; }
+
+    currentUser = name;
+    document.getElementById("userName").textContent = name;
+    document.getElementById("userAva").textContent = name.charAt(0).toUpperCase();
+
+    const joined = user.joined || Date.now();
+    document.getElementById("dayCount").textContent = Math.max(0, Math.floor((Date.now() - joined) / 86400000));
+
+    if (!user.progress) {
+      const initial = {};
+      SKILLS.forEach((s, i) => { initial[i] = []; });
+      user.progress = initial;
+      saveUsers(users);
+    }
+    state = { done: countDone(user.progress), skills: user.progress };
+    render();
+  }
+
+  function countDone(skills) {
+    return Object.values(skills || {}).reduce((sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0);
+  }
+
+  function totalLessons() {
+    return SKILLS.reduce((sum, s) => sum + s.lessons.length, 0);
+  }
+
+  // ==== رسم الصفحة ====
+  function render() {
+    const container = document.getElementById("skillsContainer");
+    container.innerHTML = "";
+
+    SKILLS.forEach((skill, si) => {
+      const doneArr = state.skills[si] || [];
+      const pct = Math.round((doneArr.length / skill.lessons.length) * 100);
+
+      const sec = document.createElement("div");
+      sec.className = "skill-section";
+      sec.innerHTML = `
+        <div class="skill-head">
+          <div class="skill-box" style="background:${skill.iconColor};"><i class="${skill.icon}"></i></div>
+          <div>
+            <h3>${skill.title}</h3>
+            <div class="meta">${doneArr.length} / ${skill.lessons.length} مكتملة</div>
+          </div>
+          <div class="skill-pct" id="pct-${si}">${pct}%</div>
+        </div>
+        <div class="lessons">
+          ${skill.lessons.map((l, li) => `
+            <div class="lesson ${doneArr.includes(li) ? 'done' : ''}" onclick="toggleLesson(${si}, ${li})">
+              <div class="check"><i class="fa-solid fa-check"></i></div>
+              <div>
+                <div class="lesson-name">${l.name}</div>
+                <div class="lesson-desc">${l.desc}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      container.appendChild(sec);
+    });
+
+    updateOverall();
+    animateSections();
+
+    const total = totalLessons();
+    const pctEls = document.querySelectorAll(".skill-pct");
+    setTimeout(() => {
+      pctEls.forEach(el => {
+        const idx = parseInt(el.id.split("-")[1]);
+        const arr = state.skills[idx] || [];
+        el.textContent = Math.round((arr.length / SKILLS[idx].lessons.length) * 100) + "%";
+      });
+    }, 50);
+    void total;
+  }
+
+  function updateOverall() {
+    const total = totalLessons();
+    const pct = Math.round((state.done / total) * 100);
+    document.getElementById("overallPct").textContent = pct + "%";
+    document.getElementById("overallBar").style.width = pct + "%";
+  }
+
+  function animateSections() {
+    const sections = document.querySelectorAll(".skill-section");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add("show"), i * 120);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    sections.forEach(s => obs.observe(s));
+  }
+
+  // ==== تفعيل درس ====
+  function toggleLesson(si, li) {
+    const users = getUsers();
+    const mk = state.skills[si];
+    const idx = mk.indexOf(li);
+    if (idx === -1) mk.push(li); else mk.splice(idx, 1);
+
+    state.done = countDone(state.skills);
+    users[currentUser].progress = state.skills;
+    saveUsers(users);
+
+    render();
+    if (idx === -1 && !state.skills[si].length) {} else if (idx === -1) {
+      checkMilestone();
+    }
+  }
+
+  function checkMilestone() {
+    const total = totalLessons();
+    const pct = Math.round((state.done / total) * 100);
+    if (pct === 100) {
+      toast("🎉 مبروك! أنهيت الرحلة كاملة. أنت مبرمج حقيقي الآن!");
+      confetti();
+    } else if (pct % 25 === 0) {
+      toast("🔥 " + state.done + " دروس مكتملة — أنت رائع!");
+      confetti(30);
+    }
+  }
+
+  // ==== تصفير ====
+  function resetProgress() {
+    if (!confirm("متأكد تريد تصفير كل تقدمك؟")) return;
+    const users = getUsers();
+    const initial = {};
+    SKILLS.forEach((s, i) => { initial[i] = []; });
+    users[currentUser].progress = initial;
+    saveUsers(users);
+    state.skills = initial;
+    state.done = 0;
+    render();
+    toast("تم تصفير التقدم.");
+  }
+
+  // ==== تسجيل الخروج ====
+  function logout() {
+    sessionStorage.removeItem("elias_session");
+    location.href = "login.html";
+  }
+
+  // ==== أدوات مساعدة ====
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove("show"), 3200);
+  }
+
+  function confetti(count) {
+    const n = count || 80;
+    const colors = ["#00cec9", "#a29bfe", "#fd79a8", "#fdcb6e", "#00e676"];
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement("div");
+      p.className = "confetti-piece";
+      p.style.cssText = `left:${Math.random()*100}vw;width:${8+Math.random()*8}px;height:${10+Math.random()*10}px;` +
+        `background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'3px'};` +
+        `transform:rotate(${Math.random()*360}deg);`;
+      document.body.appendChild(p);
+      const fall = parseInt(innerHeight) * (0.9 + Math.random()*0.3);
+      p.animate(
+        [{ transform: "translateY(0) rotate(0deg)", opacity: 1 },
+         { transform: `translateY(${fall}px) rotate(${720+Math.random()*360}deg)`, opacity: 0 }],
+        { duration: 2200 + Math.random()*1500, easing: "cubic-bezier(0.3,0.3,0.7,0.8)" }
+      ).onfinish = () => p.remove();
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
